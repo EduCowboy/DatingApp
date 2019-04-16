@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using DatingApp.API.Data.Interfaces;
 using DatingApp.API.Models;
-using DatingApp.API.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data.Repository
@@ -10,12 +9,9 @@ namespace DatingApp.API.Data.Repository
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
-        private readonly UserServices _userServices;
-        public AuthRepository(DataContext context,
-        UserServices userServices)
+        public AuthRepository(DataContext context)
         {
             _context = context;
-            _userServices = userServices;
         }
         public async Task<User> Login(string username, string password)
         {
