@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DatingApp.API.Data.Interfaces;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
+using DatingApp.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,13 +17,12 @@ namespace DatingApp.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _authRepo;
+        private readonly IAuthService _authService;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository authRepo, IConfiguration config)
+        public AuthController(IConfiguration config, IAuthService authService)
         {
             _config = config;
-            _authRepo = authRepo;
-
+            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -32,17 +32,17 @@ namespace DatingApp.API.Controllers
 
             userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
 
-            if (await _authRepo.UserExsists(userForRegisterDto.Username))
+            if (await _authService.UserExsists(userForRegisterDto))
             {
                 return BadRequest("Username already taken!");
             }
 
-            var UserToCreate = new User
+            var UserToCreate = new UserDto
             {
                 UserName = userForRegisterDto.Username
             };
 
-            var createUser = await _authRepo.Register(UserToCreate, userForRegisterDto.Password);
+            var createUser = await _authService.Register(UserToCreate, userForRegisterDto.Password);
 
             return StatusCode(201);
         }
@@ -50,7 +50,8 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var userFromRepo = await _authRepo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
+
+            var userFromRepo = await _authService.Login(userForLoginDto);
 
             if (userFromRepo == null)
             {
@@ -60,7 +61,7 @@ namespace DatingApp.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.UserName)
+                new Claim(ClaimTypes.Name, userFromRepo.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));

@@ -17,6 +17,9 @@ using DatingApp.API.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DatingApp.API.Services.Interfaces;
+using DatingApp.API.Services.Services;
+using AutoMapper;
 
 namespace DatingApp.API
 {
@@ -36,6 +39,7 @@ namespace DatingApp.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -47,6 +51,8 @@ namespace DatingApp.API
                         ValidateAudience = false
                     };
                 });
+
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

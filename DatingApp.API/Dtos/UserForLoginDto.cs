@@ -4,6 +4,7 @@ namespace DatingApp.API.Dtos
 {
     public class UserForLoginDto
     {
+        public int Id { get; set; }
         [Required]
         public string Username { get; set; }
         [Required]
