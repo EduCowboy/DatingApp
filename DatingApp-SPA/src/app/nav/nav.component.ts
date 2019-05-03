@@ -10,7 +10,6 @@ import { throwError } from 'rxjs';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  
   constructor(private authService: AuthServiceService) { }
 
   ngOnInit() {
@@ -20,8 +19,9 @@ export class NavComponent implements OnInit {
     this.authService.login(this.model).subscribe(next => {
       console.log('Success!');
     }, error => {
-      catchError(e => throwError(this.errorHandler(e)));
-      console.log('Failed!');
+      /* catchError(e => throwError(this.errorHandler(e)));
+      console.log('Failed!'); */
+      console.log(error);
     });
   }
 
@@ -35,7 +35,7 @@ export class NavComponent implements OnInit {
     console.log('logged out');
   }
 
-  errorHandler(erro){
-    console.log(erro)
+  errorHandler(erro) {
+    console.log(erro);
   }
 }
