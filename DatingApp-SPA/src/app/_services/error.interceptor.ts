@@ -9,16 +9,25 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(error => {
                 if (error instanceof HttpErrorResponse) {
+
                     if (error.status === 401) {
                         return throwError(error.statusText);
                     }
+
+                    if (error.status === 400) {
+                        return throwError(error.error);
+                    }
+
                     const applicationError = error.headers.get('Application-Error');
+
                     if (applicationError) {
                         console.error(applicationError);
                         return throwError(applicationError);
                     }
+
                     const serverError = error.error;
                     let modalStateErrors = '';
+
                     if (serverError.errors && typeof serverError.errors === 'object') {
                         for (const key in serverError.errors) {
                             if (serverError.errors[key]) {
@@ -26,7 +35,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                             }
                         }
                     }
-                    return throwError(modalStateErrors || serverError.errors || 'Server Error!');
+
+                    return throwError(modalStateErrors || serverError.errors || error.error);
                 }
             })
         );
