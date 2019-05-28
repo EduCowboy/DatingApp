@@ -13,7 +13,8 @@ namespace DatingApp.API.Mapper
             CreateMap<User, UserForLoginDto>();
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
-            //CreateMap<UserDto, User>();
+            CreateMap<User, UserForListDto>();
+            CreateMap<User, UserForDetailedDto>();
         }
     }
 }
