@@ -7,7 +7,7 @@ namespace DatingApp.API.Services.Interfaces
 {
     public interface IUserService
     {
-         Task<IEnumerable<UserDto>> GetAllUsers();
-         Task<UserDto> GetUserById(int id);
+         Task<IEnumerable<UserForListDto>> GetAllUsers();
+         Task<UserForDetailedDto> GetUserById(int id);
     }
 }

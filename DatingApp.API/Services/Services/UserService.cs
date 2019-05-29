@@ -24,22 +24,22 @@ namespace DatingApp.API.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        public async Task<IEnumerable<UserForListDto>> GetAllUsers()
         {
             IEnumerable<User> userModel = await _userRepo.GetAllUsers();
 
-            IEnumerable<UserDto> userDto = _mapper.Map<List<UserDto>>(userModel);
+            IEnumerable<UserForListDto> userForListDto = _mapper.Map<List<UserForListDto>>(userModel);
 
-            return userDto;
+            return userForListDto;
         }
 
-        public async Task<UserDto> GetUserById(int id)
+        public async Task<UserForDetailedDto> GetUserById(int id)
         {
             User userModel =  await _userRepo.GetUserById(id);
 
-            UserDto userDto = _mapper.Map<UserDto>(userModel);
+            UserForDetailedDto userForDetailedDto = _mapper.Map<UserForDetailedDto>(userModel);
 
-            return userDto;
+            return userForDetailedDto;
         }
     }
 }
