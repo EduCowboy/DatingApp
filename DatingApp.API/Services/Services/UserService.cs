@@ -41,5 +41,18 @@ namespace DatingApp.API.Services.Services
 
             return userForDetailedDto;
         }
+
+        public async Task<bool> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
+        {
+            bool isValid = false;
+
+            User userModel =  await _userRepo.GetUserById(id);
+
+            _mapper.Map(userForUpdateDto, userModel);
+
+            isValid = await _userRepo.UpdateUser(userModel);
+            
+            return isValid;
+        }
     }
 }

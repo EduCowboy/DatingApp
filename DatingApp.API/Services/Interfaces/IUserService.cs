@@ -9,5 +9,6 @@ namespace DatingApp.API.Services.Interfaces
     {
          Task<IEnumerable<UserForListDto>> GetAllUsers();
          Task<UserForDetailedDto> GetUserById(int id);
+         Task<bool> UpdateUser(int id, UserForUpdateDto userForUpdateDto);
     }
 }

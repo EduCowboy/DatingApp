@@ -8,7 +8,7 @@ namespace DatingApp.API.Data.Interfaces
     {
          //Task<int> AddUser(User user);
          //void DeleteUser(User user);
-         //Task<User> UpdateUser(User user);
+         Task<bool> UpdateUser(User user);
          Task<IEnumerable<User>> GetAllUsers();
          Task<User> GetUserById(int id);
     }

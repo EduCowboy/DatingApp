@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.API.Data.Interfaces;
@@ -44,9 +45,19 @@ namespace DatingApp.API.Data.Repository
             return userInfo;
         }
 
-        // public Task<User> UpdateUser(User user)
-        // {
-        //     throw new System.NotImplementedException();
-        // }
+         public async Task<bool> UpdateUser(User user)
+         {
+            try
+            {
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
+         }
     }
 }
