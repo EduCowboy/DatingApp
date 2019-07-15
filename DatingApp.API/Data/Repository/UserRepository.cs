@@ -16,7 +16,7 @@ namespace DatingApp.API.Data.Repository
             _context = context;
         }
 
-        /* public async Task<int> AddUser(User user)
+        public async Task<int> AddUser(User user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -24,7 +24,7 @@ namespace DatingApp.API.Data.Repository
             int id = user.Id;
 
             return id;
-        } */
+        }
 
         // public void DeleteUser(User user)
         // {
